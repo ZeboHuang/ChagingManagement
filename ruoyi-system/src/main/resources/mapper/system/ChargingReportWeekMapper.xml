@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.ChargingReportWeekMapper">
+    
+    <resultMap type="ChargingReportWeek" id="ChargingReportWeekResult">
+        <result property="id"    column="id"    />
+        <result property="stationName"    column="station_name"    />
+        <result property="weekStart"    column="week_start"    />
+        <result property="weekEnd"    column="week_end"    />
+        <result property="chargingCapacity"    column="charging_capacity"    />
+        <result property="electoryPayment"    column="electory_payment"    />
+        <result property="servePayment"    column="serve_payment"    />
+        <result property="duePayment"    column="due_payment"    />
+        <result property="actualPayment"    column="actual_payment"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectChargingReportWeekVo">
+        select id, station_name, week_start, week_end, charging_capacity, electory_payment, serve_payment, due_payment, actual_payment, create_by, create_time, update_by, update_time, remark from charging_report_week
+    </sql>
+
+    <select id="selectChargingReportWeekList" parameterType="ChargingReportWeek" resultMap="ChargingReportWeekResult">
+        <include refid="selectChargingReportWeekVo"/>
+        <where>  
+            <if test="stationName != null  and stationName != ''"> and station_name like concat('%', #{stationName}, '%')</if>
+            <if test="weekStart != null "> and week_start &gt;= #{weekStart}</if>
+            <if test="weekEnd != null "> and week_end &lt;= #{weekEnd}</if>
+            <if test="chargingCapacity != null "> and charging_capacity = #{chargingCapacity}</if>
+        </where>
+    </select>
+    
+    <select id="selectChargingReportWeekById" parameterType="Long" resultMap="ChargingReportWeekResult">
+        <include refid="selectChargingReportWeekVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertChargingReportWeek" parameterType="ChargingReportWeek">
+        insert into charging_report_week
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="stationName != null">station_name,</if>
+            <if test="weekStart != null">week_start,</if>
+            <if test="weekEnd != null">week_end,</if>
+            <if test="chargingCapacity != null">charging_capacity,</if>
+            <if test="electoryPayment != null">electory_payment,</if>
+            <if test="servePayment != null">serve_payment,</if>
+            <if test="duePayment != null">due_payment,</if>
+            <if test="actualPayment != null">actual_payment,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="stationName != null">#{stationName},</if>
+            <if test="weekStart != null">#{weekStart},</if>
+            <if test="weekEnd != null">#{weekEnd},</if>
+            <if test="chargingCapacity != null">#{chargingCapacity},</if>
+            <if test="electoryPayment != null">#{electoryPayment},</if>
+            <if test="servePayment != null">#{servePayment},</if>
+            <if test="duePayment != null">#{duePayment},</if>
+            <if test="actualPayment != null">#{actualPayment},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateChargingReportWeek" parameterType="ChargingReportWeek">
+        update charging_report_week
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="stationName != null">station_name = #{stationName},</if>
+            <if test="weekStart != null">week_start = #{weekStart},</if>
+            <if test="weekEnd != null">week_end = #{weekEnd},</if>
+            <if test="chargingCapacity != null">charging_capacity = #{chargingCapacity},</if>
+            <if test="electoryPayment != null">electory_payment = #{electoryPayment},</if>
+            <if test="servePayment != null">serve_payment = #{servePayment},</if>
+            <if test="duePayment != null">due_payment = #{duePayment},</if>
+            <if test="actualPayment != null">actual_payment = #{actualPayment},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteChargingReportWeekById" parameterType="Long">
+        delete from charging_report_week where id = #{id}
+    </delete>
+
+    <delete id="deleteChargingReportWeekByIds" parameterType="String">
+        delete from charging_report_week where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

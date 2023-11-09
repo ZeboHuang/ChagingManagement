@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.UserMapper">
+    
+    <resultMap type="User" id="UserResult">
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="userPassword"    column="user_password"    />
+        <result property="userSex"    column="user_sex"    />
+        <result property="userBirthday"    column="user_birthday"    />
+        <result property="userEmail"    column="user_email"    />
+        <result property="userPhonenumber"    column="user_phonenumber"    />
+        <result property="userType"    column="user_type"    />
+        <result property="userStatus"    column="user_status"    />
+    </resultMap>
+
+    <sql id="selectUserVo">
+        select user_id, user_name, user_password, user_sex, user_birthday, user_email, user_phonenumber, user_type, user_status from user
+    </sql>
+
+    <select id="selectUserList" parameterType="User" resultMap="UserResult">
+        <include refid="selectUserVo"/>
+        <where>  
+            <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
+            <if test="userPassword != null  and userPassword != ''"> and user_password = #{userPassword}</if>
+            <if test="userSex != null  and userSex != ''"> and user_sex = #{userSex}</if>
+            <if test="userBirthday != null "> and user_birthday = #{userBirthday}</if>
+            <if test="userEmail != null  and userEmail != ''"> and user_email = #{userEmail}</if>
+            <if test="userPhonenumber != null  and userPhonenumber != ''"> and user_phonenumber = #{userPhonenumber}</if>
+            <if test="userType != null "> and user_type = #{userType}</if>
+            <if test="userStatus != null "> and user_status = #{userStatus}</if>
+        </where>
+    </select>
+    
+    <select id="selectUserByUserId" parameterType="Integer" resultMap="UserResult">
+        <include refid="selectUserVo"/>
+        where user_id = #{userId}
+    </select>
+        
+    <insert id="insertUser" parameterType="User">
+        insert into user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="userName != null">user_name,</if>
+            <if test="userPassword != null">user_password,</if>
+            <if test="userSex != null">user_sex,</if>
+            <if test="userBirthday != null">user_birthday,</if>
+            <if test="userEmail != null">user_email,</if>
+            <if test="userPhonenumber != null">user_phonenumber,</if>
+            <if test="userType != null">user_type,</if>
+            <if test="userStatus != null">user_status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="userName != null">#{userName},</if>
+            <if test="userPassword != null">#{userPassword},</if>
+            <if test="userSex != null">#{userSex},</if>
+            <if test="userBirthday != null">#{userBirthday},</if>
+            <if test="userEmail != null">#{userEmail},</if>
+            <if test="userPhonenumber != null">#{userPhonenumber},</if>
+            <if test="userType != null">#{userType},</if>
+            <if test="userStatus != null">#{userStatus},</if>
+         </trim>
+    </insert>
+
+    <update id="updateUser" parameterType="User">
+        update user
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userName != null">user_name = #{userName},</if>
+            <if test="userPassword != null">user_password = #{userPassword},</if>
+            <if test="userSex != null">user_sex = #{userSex},</if>
+            <if test="userBirthday != null">user_birthday = #{userBirthday},</if>
+            <if test="userEmail != null">user_email = #{userEmail},</if>
+            <if test="userPhonenumber != null">user_phonenumber = #{userPhonenumber},</if>
+            <if test="userType != null">user_type = #{userType},</if>
+            <if test="userStatus != null">user_status = #{userStatus},</if>
+        </trim>
+        where user_id = #{userId}
+    </update>
+
+    <delete id="deleteUserByUserId" parameterType="Integer">
+        delete from user where user_id = #{userId}
+    </delete>
+
+    <delete id="deleteUserByUserIds" parameterType="String">
+        delete from user where user_id in 
+        <foreach item="userId" collection="array" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </delete>
+</mapper>

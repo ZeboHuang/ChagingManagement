@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.ServerManageMapper">
+    
+    <resultMap type="ServerManage" id="ServerManageResult">
+        <result property="id"    column="ID"    />
+        <result property="name"    column="NAME"    />
+        <result property="province"    column="PROVINCE"    />
+        <result property="quantity"    column="QUANTITY"    />
+        <result property="person"    column="PERSON"    />
+        <result property="phone"    column="PHONE"    />
+        <result property="email"    column="EMAIL"    />
+    </resultMap>
+
+    <sql id="selectServerManageVo">
+        select ID, NAME, PROVINCE, QUANTITY, PERSON, PHONE, EMAIL from server_manage
+    </sql>
+
+    <select id="selectServerManageList" parameterType="ServerManage" resultMap="ServerManageResult">
+        <include refid="selectServerManageVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and NAME like concat('%', #{name}, '%')</if>
+            <if test="province != null  and province != ''"> and PROVINCE = #{province}</if>
+            <if test="quantity != null "> and QUANTITY = #{quantity}</if>
+            <if test="person != null  and person != ''"> and PERSON = #{person}</if>
+            <if test="phone != null  and phone != ''"> and PHONE = #{phone}</if>
+            <if test="email != null  and email != ''"> and EMAIL = #{email}</if>
+        </where>
+    </select>
+    
+    <select id="selectServerManageById" parameterType="Long" resultMap="ServerManageResult">
+        <include refid="selectServerManageVo"/>
+        where ID = #{id}
+    </select>
+        
+    <insert id="insertServerManage" parameterType="ServerManage" useGeneratedKeys="true" keyProperty="id">
+        insert into server_manage
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">NAME,</if>
+            <if test="province != null">PROVINCE,</if>
+            <if test="quantity != null">QUANTITY,</if>
+            <if test="person != null">PERSON,</if>
+            <if test="phone != null">PHONE,</if>
+            <if test="email != null">EMAIL,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="province != null">#{province},</if>
+            <if test="quantity != null">#{quantity},</if>
+            <if test="person != null">#{person},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="email != null">#{email},</if>
+         </trim>
+    </insert>
+
+    <update id="updateServerManage" parameterType="ServerManage">
+        update server_manage
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">NAME = #{name},</if>
+            <if test="province != null">PROVINCE = #{province},</if>
+            <if test="quantity != null">QUANTITY = #{quantity},</if>
+            <if test="person != null">PERSON = #{person},</if>
+            <if test="phone != null">PHONE = #{phone},</if>
+            <if test="email != null">EMAIL = #{email},</if>
+        </trim>
+        where ID = #{id}
+    </update>
+
+    <delete id="deleteServerManageById" parameterType="Long">
+        delete from server_manage where ID = #{id}
+    </delete>
+
+    <delete id="deleteServerManageByIds" parameterType="String">
+        delete from server_manage where ID in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

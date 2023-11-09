@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.ChargeManageMapper">
+    
+    <resultMap type="ChargeManage" id="ChargeManageResult">
+        <result property="sysId"    column="SYS_ID"    />
+        <result property="pileId"    column="PILE_ID"    />
+        <result property="staname"    column="STANAME"    />
+        <result property="loc"    column="LOC"    />
+        <result property="unitprice"    column="UNITPRICE"    />
+        <result property="duration"    column="DURATION"    />
+        <result property="remark"    column="REMARK"    />
+    </resultMap>
+
+    <sql id="selectChargeManageVo">
+        select SYS_ID, PILE_ID, STANAME, LOC, UNITPRICE, DURATION, REMARK from charge_manage
+    </sql>
+
+    <select id="selectChargeManageList" parameterType="ChargeManage" resultMap="ChargeManageResult">
+        <include refid="selectChargeManageVo"/>
+        <where>  
+            <if test="pileId != null  and pileId != ''"> and PILE_ID = #{pileId}</if>
+            <if test="staname != null  and staname != ''"> and STANAME like concat('%', #{staname}, '%')</if>
+            <if test="loc != null  and loc != ''"> and LOC = #{loc}</if>
+            <if test="unitprice != null "> and UNITPRICE = #{unitprice}</if>
+            <if test="duration != null "> and DURATION = #{duration}</if>
+            <if test="remark != null  and remark != ''"> and REMARK = #{remark}</if>
+        </where>
+    </select>
+    
+    <select id="selectChargeManageBySysId" parameterType="Long" resultMap="ChargeManageResult">
+        <include refid="selectChargeManageVo"/>
+        where SYS_ID = #{sysId}
+    </select>
+        
+    <insert id="insertChargeManage" parameterType="ChargeManage">
+        insert into charge_manage
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sysId != null">SYS_ID,</if>
+            <if test="pileId != null">PILE_ID,</if>
+            <if test="staname != null">STANAME,</if>
+            <if test="loc != null">LOC,</if>
+            <if test="unitprice != null">UNITPRICE,</if>
+            <if test="duration != null">DURATION,</if>
+            <if test="remark != null">REMARK,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sysId != null">#{sysId},</if>
+            <if test="pileId != null">#{pileId},</if>
+            <if test="staname != null">#{staname},</if>
+            <if test="loc != null">#{loc},</if>
+            <if test="unitprice != null">#{unitprice},</if>
+            <if test="duration != null">#{duration},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateChargeManage" parameterType="ChargeManage">
+        update charge_manage
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pileId != null">PILE_ID = #{pileId},</if>
+            <if test="staname != null">STANAME = #{staname},</if>
+            <if test="loc != null">LOC = #{loc},</if>
+            <if test="unitprice != null">UNITPRICE = #{unitprice},</if>
+            <if test="duration != null">DURATION = #{duration},</if>
+            <if test="remark != null">REMARK = #{remark},</if>
+        </trim>
+        where SYS_ID = #{sysId}
+    </update>
+
+    <delete id="deleteChargeManageBySysId" parameterType="Long">
+        delete from charge_manage where SYS_ID = #{sysId}
+    </delete>
+
+    <delete id="deleteChargeManageBySysIds" parameterType="String">
+        delete from charge_manage where SYS_ID in 
+        <foreach item="sysId" collection="array" open="(" separator="," close=")">
+            #{sysId}
+        </foreach>
+    </delete>
+</mapper>

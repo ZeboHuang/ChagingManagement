@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.ChargingOrderMapper">
+    
+    <resultMap type="ChargingOrder" id="ChargingOrderResult">
+        <result property="sysId"    column="sys_id"    />
+        <result property="chargingId"    column="charging_id"    />
+        <result property="paymentId"    column="payment_id"    />
+        <result property="pileId"    column="pile_id"    />
+        <result property="gunId"    column="gun_id"    />
+        <result property="chargingCardId"    column="charging_card_id"    />
+        <result property="chargingMode"    column="charging_mode"    />
+        <result property="stationName"    column="station_name"    />
+        <result property="chargingStatus"    column="charging_status"    />
+        <result property="timeStart"    column="time_start"    />
+        <result property="timeEnd"    column="time_end"    />
+        <result property="paymentChannelTag"    column="payment_channel_tag"    />
+        <result property="paymentChannel"    column="payment_channel"    />
+        <result property="paymentMode"    column="payment_mode"    />
+        <result property="chargingCapacity"    column="charging_capacity"    />
+        <result property="couponName"    column="coupon_name"    />
+        <result property="couponType"    column="coupon_type"    />
+        <result property="couponQuota"    column="coupon_quota"    />
+        <result property="advancePayment"    column="advance_payment"    />
+        <result property="duePayment"    column="due_payment"    />
+        <result property="discountPayment"    column="discount_payment"    />
+        <result property="actualPayment"    column="actual_payment"    />
+        <result property="refund"    column="refund"    />
+        <result property="refundTag"    column="refund_tag"    />
+        <result property="finishReason"    column="finish_reason"    />
+        <result property="userId"    column="user_id"    />
+        <result property="vin"    column="vin"    />
+        <result property="userType"    column="user_type"    />
+        <result property="timeType"    column="time_type"    />
+        <result property="electricityPrice"    column="electricity_price"    />
+        <result property="servePrice"    column="serve_price"    />
+        <result property="stationDiscount"    column="station_discount"    />
+        <result property="memberDiscount"    column="member_discount"    />
+        <result property="memberDiscountStatus"    column="member_discount_status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectChargingOrderVo">
+        select sys_id, charging_id, payment_id, pile_id, gun_id, charging_card_id, charging_mode, station_name, charging_status, time_start, time_end, payment_channel_tag, payment_channel, payment_mode, charging_capacity, coupon_name, coupon_type, coupon_quota, advance_payment, due_payment, discount_payment, actual_payment, refund, refund_tag, finish_reason, user_id, vin, user_type, time_type, electricity_price, serve_price, station_discount, member_discount, member_discount_status, create_by, create_time, update_by, update_time, remark from charging_order
+    </sql>
+
+    <select id="selectChargingOrderList" parameterType="ChargingOrder" resultMap="ChargingOrderResult">
+        <include refid="selectChargingOrderVo"/>
+        <where>  
+            <if test="chargingId != null  and chargingId != ''"> and charging_id like concat('%', #{chargingId}, '%')</if>
+            <if test="paymentId != null  and paymentId != ''"> and payment_id like concat('%', #{paymentId}, '%')</if>
+            <if test="pileId != null  and pileId != ''"> and pile_id like concat('%', #{pileId}, '%')</if>
+            <if test="gunId != null  and gunId != ''"> and gun_id like concat('%', #{gunId}, '%')</if>
+            <if test="chargingCardId != null  and chargingCardId != ''"> and charging_card_id like concat('%', #{chargingCardId}, '%')</if>
+            <if test="stationName != null  and stationName != ''"> and station_name like concat('%', #{stationName}, '%')</if>
+            <if test="paymentChannelTag != null "> and payment_channel_tag = #{paymentChannelTag}</if>
+            <if test="paymentMode != null "> and payment_mode = #{paymentMode}</if>
+            <if test="refundTag != null "> and refund_tag = #{refundTag}</if>
+            <if test="finishReason != null "> and finish_reason = #{finishReason}</if>
+            <if test="userId != null  and userId != ''"> and user_id = #{userId}</if>
+            <if test="vin != null  and vin != ''"> and vin = #{vin}</if>
+            <if test="userType != null "> and user_type = #{userType}</if>
+        </where>
+    </select>
+    
+    <select id="selectChargingOrderBySysId" parameterType="Long" resultMap="ChargingOrderResult">
+        <include refid="selectChargingOrderVo"/>
+        where sys_id = #{sysId}
+    </select>
+        
+    <insert id="insertChargingOrder" parameterType="ChargingOrder" useGeneratedKeys="true" keyProperty="sysId">
+        insert into charging_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="chargingId != null and chargingId != ''">charging_id,</if>
+            <if test="paymentId != null and paymentId != ''">payment_id,</if>
+            <if test="pileId != null and pileId != ''">pile_id,</if>
+            <if test="gunId != null and gunId != ''">gun_id,</if>
+            <if test="chargingCardId != null and chargingCardId != ''">charging_card_id,</if>
+            <if test="chargingMode != null">charging_mode,</if>
+            <if test="stationName != null">station_name,</if>
+            <if test="chargingStatus != null">charging_status,</if>
+            <if test="timeStart != null">time_start,</if>
+            <if test="timeEnd != null">time_end,</if>
+            <if test="paymentChannelTag != null">payment_channel_tag,</if>
+            <if test="paymentChannel != null">payment_channel,</if>
+            <if test="paymentMode != null">payment_mode,</if>
+            <if test="chargingCapacity != null">charging_capacity,</if>
+            <if test="couponName != null">coupon_name,</if>
+            <if test="couponType != null">coupon_type,</if>
+            <if test="couponQuota != null">coupon_quota,</if>
+            <if test="advancePayment != null">advance_payment,</if>
+            <if test="duePayment != null">due_payment,</if>
+            <if test="discountPayment != null">discount_payment,</if>
+            <if test="actualPayment != null">actual_payment,</if>
+            <if test="refund != null">refund,</if>
+            <if test="refundTag != null">refund_tag,</if>
+            <if test="finishReason != null">finish_reason,</if>
+            <if test="userId != null and userId != ''">user_id,</if>
+            <if test="vin != null">vin,</if>
+            <if test="userType != null">user_type,</if>
+            <if test="timeType != null">time_type,</if>
+            <if test="electricityPrice != null">electricity_price,</if>
+            <if test="servePrice != null">serve_price,</if>
+            <if test="stationDiscount != null">station_discount,</if>
+            <if test="memberDiscount != null">member_discount,</if>
+            <if test="memberDiscountStatus != null">member_discount_status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="chargingId != null and chargingId != ''">#{chargingId},</if>
+            <if test="paymentId != null and paymentId != ''">#{paymentId},</if>
+            <if test="pileId != null and pileId != ''">#{pileId},</if>
+            <if test="gunId != null and gunId != ''">#{gunId},</if>
+            <if test="chargingCardId != null and chargingCardId != ''">#{chargingCardId},</if>
+            <if test="chargingMode != null">#{chargingMode},</if>
+            <if test="stationName != null">#{stationName},</if>
+            <if test="chargingStatus != null">#{chargingStatus},</if>
+            <if test="timeStart != null">#{timeStart},</if>
+            <if test="timeEnd != null">#{timeEnd},</if>
+            <if test="paymentChannelTag != null">#{paymentChannelTag},</if>
+            <if test="paymentChannel != null">#{paymentChannel},</if>
+            <if test="paymentMode != null">#{paymentMode},</if>
+            <if test="chargingCapacity != null">#{chargingCapacity},</if>
+            <if test="couponName != null">#{couponName},</if>
+            <if test="couponType != null">#{couponType},</if>
+            <if test="couponQuota != null">#{couponQuota},</if>
+            <if test="advancePayment != null">#{advancePayment},</if>
+            <if test="duePayment != null">#{duePayment},</if>
+            <if test="discountPayment != null">#{discountPayment},</if>
+            <if test="actualPayment != null">#{actualPayment},</if>
+            <if test="refund != null">#{refund},</if>
+            <if test="refundTag != null">#{refundTag},</if>
+            <if test="finishReason != null">#{finishReason},</if>
+            <if test="userId != null and userId != ''">#{userId},</if>
+            <if test="vin != null">#{vin},</if>
+            <if test="userType != null">#{userType},</if>
+            <if test="timeType != null">#{timeType},</if>
+            <if test="electricityPrice != null">#{electricityPrice},</if>
+            <if test="servePrice != null">#{servePrice},</if>
+            <if test="stationDiscount != null">#{stationDiscount},</if>
+            <if test="memberDiscount != null">#{memberDiscount},</if>
+            <if test="memberDiscountStatus != null">#{memberDiscountStatus},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateChargingOrder" parameterType="ChargingOrder">
+        update charging_order
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="chargingId != null and chargingId != ''">charging_id = #{chargingId},</if>
+            <if test="paymentId != null and paymentId != ''">payment_id = #{paymentId},</if>
+            <if test="pileId != null and pileId != ''">pile_id = #{pileId},</if>
+            <if test="gunId != null and gunId != ''">gun_id = #{gunId},</if>
+            <if test="chargingCardId != null and chargingCardId != ''">charging_card_id = #{chargingCardId},</if>
+            <if test="chargingMode != null">charging_mode = #{chargingMode},</if>
+            <if test="stationName != null">station_name = #{stationName},</if>
+            <if test="chargingStatus != null">charging_status = #{chargingStatus},</if>
+            <if test="timeStart != null">time_start = #{timeStart},</if>
+            <if test="timeEnd != null">time_end = #{timeEnd},</if>
+            <if test="paymentChannelTag != null">payment_channel_tag = #{paymentChannelTag},</if>
+            <if test="paymentChannel != null">payment_channel = #{paymentChannel},</if>
+            <if test="paymentMode != null">payment_mode = #{paymentMode},</if>
+            <if test="chargingCapacity != null">charging_capacity = #{chargingCapacity},</if>
+            <if test="couponName != null">coupon_name = #{couponName},</if>
+            <if test="couponType != null">coupon_type = #{couponType},</if>
+            <if test="couponQuota != null">coupon_quota = #{couponQuota},</if>
+            <if test="advancePayment != null">advance_payment = #{advancePayment},</if>
+            <if test="duePayment != null">due_payment = #{duePayment},</if>
+            <if test="discountPayment != null">discount_payment = #{discountPayment},</if>
+            <if test="actualPayment != null">actual_payment = #{actualPayment},</if>
+            <if test="refund != null">refund = #{refund},</if>
+            <if test="refundTag != null">refund_tag = #{refundTag},</if>
+            <if test="finishReason != null">finish_reason = #{finishReason},</if>
+            <if test="userId != null and userId != ''">user_id = #{userId},</if>
+            <if test="vin != null">vin = #{vin},</if>
+            <if test="userType != null">user_type = #{userType},</if>
+            <if test="timeType != null">time_type = #{timeType},</if>
+            <if test="electricityPrice != null">electricity_price = #{electricityPrice},</if>
+            <if test="servePrice != null">serve_price = #{servePrice},</if>
+            <if test="stationDiscount != null">station_discount = #{stationDiscount},</if>
+            <if test="memberDiscount != null">member_discount = #{memberDiscount},</if>
+            <if test="memberDiscountStatus != null">member_discount_status = #{memberDiscountStatus},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where sys_id = #{sysId}
+    </update>
+
+    <delete id="deleteChargingOrderBySysId" parameterType="Long">
+        delete from charging_order where sys_id = #{sysId}
+    </delete>
+
+    <delete id="deleteChargingOrderBySysIds" parameterType="String">
+        delete from charging_order where sys_id in 
+        <foreach item="sysId" collection="array" open="(" separator="," close=")">
+            #{sysId}
+        </foreach>
+    </delete>
+</mapper>

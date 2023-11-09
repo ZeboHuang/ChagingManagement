@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.DiscountMapper">
+    
+    <resultMap type="Discount" id="DiscountResult">
+        <result property="discountId"    column="discount_id"    />
+        <result property="discountName"    column="discount_name"    />
+        <result property="discountType"    column="discount_type"    />
+        <result property="discountQuota"    column="discount_quota"    />
+        <result property="discountBeginQuota"    column="discount_begin_quota"    />
+        <result property="discountEfficientStartTime"    column="discount_efficient_start_time"    />
+        <result property="discountEfficientEndTime"    column="discount_efficient_end_time"    />
+        <result property="discountDays"    column="discount_days"    />
+        <result property="discountNumber"    column="discount_number"    />
+        <result property="discountStatus"    column="discount_status"    />
+    </resultMap>
+
+    <sql id="selectDiscountVo">
+        select discount_id, discount_name, discount_type, discount_quota, discount_begin_quota, discount_efficient_start_time, discount_efficient_end_time, discount_days, discount_number, discount_status from discount
+    </sql>
+
+    <select id="selectDiscountList" parameterType="Discount" resultMap="DiscountResult">
+        <include refid="selectDiscountVo"/>
+        <where>  
+            <if test="discountName != null  and discountName != ''"> and discount_name like concat('%', #{discountName}, '%')</if>
+            <if test="discountType != null "> and discount_type = #{discountType}</if>
+            <if test="discountQuota != null "> and discount_quota = #{discountQuota}</if>
+            <if test="discountBeginQuota != null "> and discount_begin_quota = #{discountBeginQuota}</if>
+            <if test="discountEfficientStartTime != null "> and discount_efficient_start_time = #{discountEfficientStartTime}</if>
+            <if test="discountEfficientEndTime != null "> and discount_efficient_end_time = #{discountEfficientEndTime}</if>
+            <if test="discountDays != null "> and discount_days = #{discountDays}</if>
+            <if test="discountNumber != null "> and discount_number = #{discountNumber}</if>
+            <if test="discountStatus != null "> and discount_status = #{discountStatus}</if>
+        </where>
+    </select>
+    
+    <select id="selectDiscountByDiscountId" parameterType="Integer" resultMap="DiscountResult">
+        <include refid="selectDiscountVo"/>
+        where discount_id = #{discountId}
+    </select>
+        
+    <insert id="insertDiscount" parameterType="Discount">
+        insert into discount
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="discountId != null">discount_id,</if>
+            <if test="discountName != null">discount_name,</if>
+            <if test="discountType != null">discount_type,</if>
+            <if test="discountQuota != null">discount_quota,</if>
+            <if test="discountBeginQuota != null">discount_begin_quota,</if>
+            <if test="discountEfficientStartTime != null">discount_efficient_start_time,</if>
+            <if test="discountEfficientEndTime != null">discount_efficient_end_time,</if>
+            <if test="discountDays != null">discount_days,</if>
+            <if test="discountNumber != null">discount_number,</if>
+            <if test="discountStatus != null">discount_status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="discountId != null">#{discountId},</if>
+            <if test="discountName != null">#{discountName},</if>
+            <if test="discountType != null">#{discountType},</if>
+            <if test="discountQuota != null">#{discountQuota},</if>
+            <if test="discountBeginQuota != null">#{discountBeginQuota},</if>
+            <if test="discountEfficientStartTime != null">#{discountEfficientStartTime},</if>
+            <if test="discountEfficientEndTime != null">#{discountEfficientEndTime},</if>
+            <if test="discountDays != null">#{discountDays},</if>
+            <if test="discountNumber != null">#{discountNumber},</if>
+            <if test="discountStatus != null">#{discountStatus},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDiscount" parameterType="Discount">
+        update discount
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="discountName != null">discount_name = #{discountName},</if>
+            <if test="discountType != null">discount_type = #{discountType},</if>
+            <if test="discountQuota != null">discount_quota = #{discountQuota},</if>
+            <if test="discountBeginQuota != null">discount_begin_quota = #{discountBeginQuota},</if>
+            <if test="discountEfficientStartTime != null">discount_efficient_start_time = #{discountEfficientStartTime},</if>
+            <if test="discountEfficientEndTime != null">discount_efficient_end_time = #{discountEfficientEndTime},</if>
+            <if test="discountDays != null">discount_days = #{discountDays},</if>
+            <if test="discountNumber != null">discount_number = #{discountNumber},</if>
+            <if test="discountStatus != null">discount_status = #{discountStatus},</if>
+        </trim>
+        where discount_id = #{discountId}
+    </update>
+
+    <delete id="deleteDiscountByDiscountId" parameterType="Integer">
+        delete from discount where discount_id = #{discountId}
+    </delete>
+
+    <delete id="deleteDiscountByDiscountIds" parameterType="String">
+        delete from discount where discount_id in 
+        <foreach item="discountId" collection="array" open="(" separator="," close=")">
+            #{discountId}
+        </foreach>
+    </delete>
+</mapper>

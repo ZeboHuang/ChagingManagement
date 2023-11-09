@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.ChargingStationMapper">
+    
+    <resultMap type="ChargingStation" id="ChargingStationResult">
+        <result property="sysId"    column="SYS_ID"    />
+        <result property="id"    column="ID"    />
+        <result property="name"    column="NAME"    />
+        <result property="type"    column="TYPE"    />
+        <result property="province"    column="PROVINCE"    />
+        <result property="city"    column="CITY"    />
+        <result property="country"    column="COUNTRY"    />
+        <result property="address"    column="ADDRESS"    />
+        <result property="site"    column="SITE"    />
+        <result property="capacity"    column="CAPACITY"    />
+        <result property="longitude"    column="LONGITUDE"    />
+        <result property="latitude"    column="LATITUDE"    />
+        <result property="discount"    column="DISCOUNT"    />
+        <result property="couponStatus"    column="COUPON_STATUS"    />
+        <result property="parkingFreeStatus"    column="PARKING_FREE_STATUS"    />
+        <result property="tag"    column="TAG"    />
+        <result property="operator"    column="OPERATOR"    />
+        <result property="stationStatus"    column="STATION_STATUS"    />
+        <result property="regionNum"    column="REGION_NUM"    />
+        <result property="businessCycle"    column="BUSINESS_CYCLE"    />
+        <result property="businessTimeStart"    column="BUSINESS_TIME_START"    />
+        <result property="businessTimeEnd"    column="BUSINESS_TIME_END"    />
+        <result property="contact"    column="CONTACT"    />
+        <result property="phoneNumber"    column="PHONE_NUMBER"    />
+        <result property="createBy"    column="CREATE_BY"    />
+        <result property="createTime"    column="CREATE_TIME"    />
+        <result property="updateBy"    column="UPDATE_BY"    />
+        <result property="updateTime"    column="UPDATE_TIME"    />
+        <result property="remark"    column="REMARK"    />
+    </resultMap>
+
+    <sql id="selectChargingStationVo">
+        select SYS_ID, ID, NAME, TYPE, PROVINCE, CITY, COUNTRY, ADDRESS, SITE, CAPACITY, LONGITUDE, LATITUDE, DISCOUNT, COUPON_STATUS, PARKING_FREE_STATUS, TAG, OPERATOR, STATION_STATUS, REGION_NUM, BUSINESS_CYCLE, BUSINESS_TIME_START, BUSINESS_TIME_END, CONTACT, PHONE_NUMBER, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME, REMARK from charging_station
+    </sql>
+
+    <select id="selectChargingStationList" parameterType="ChargingStation" resultMap="ChargingStationResult">
+        <include refid="selectChargingStationVo"/>
+        <where>  
+            <if test="sysId != null "> and SYS_ID = #{sysId}</if>
+            <if test="id != null  and id != ''"> and ID = #{id}</if>
+            <if test="name != null  and name != ''"> and NAME like concat('%', #{name}, '%')</if>
+            <if test="type != null "> and TYPE = #{type}</if>
+            <if test="province != null  and province != ''"> and PROVINCE = #{province}</if>
+            <if test="city != null  and city != ''"> and CITY = #{city}</if>
+            <if test="country != null  and country != ''"> and COUNTRY = #{country}</if>
+            <if test="address != null  and address != ''"> and ADDRESS = #{address}</if>
+            <if test="site != null  and site != ''"> and SITE = #{site}</if>
+            <if test="capacity != null "> and CAPACITY = #{capacity}</if>
+            <if test="discount != null "> and DISCOUNT = #{discount}</if>
+            <if test="couponStatus != null "> and COUPON_STATUS = #{couponStatus}</if>
+            <if test="parkingFreeStatus != null "> and PARKING_FREE_STATUS = #{parkingFreeStatus}</if>
+            <if test="tag != null "> and TAG = #{tag}</if>
+            <if test="operator != null  and operator != ''"> and OPERATOR = #{operator}</if>
+            <if test="stationStatus != null "> and STATION_STATUS = #{stationStatus}</if>
+            <if test="regionNum != null "> and REGION_NUM = #{regionNum}</if>
+            <if test="businessTimeStart != null "> and BUSINESS_TIME_START = #{businessTimeStart}</if>
+            <if test="businessTimeEnd != null "> and BUSINESS_TIME_END = #{businessTimeEnd}</if>
+            <if test="contact != null  and contact != ''"> and CONTACT = #{contact}</if>
+            <if test="phoneNumber != null  and phoneNumber != ''"> and PHONE_NUMBER = #{phoneNumber}</if>
+            <if test="createBy != null  and createBy != ''"> and CREATE_BY = #{createBy}</if>
+            <if test="createTime != null "> and CREATE_TIME = #{createTime}</if>
+            <if test="updateBy != null  and updateBy != ''"> and UPDATE_BY = #{updateBy}</if>
+            <if test="updateTime != null "> and UPDATE_TIME = #{updateTime}</if>
+            <if test="remark != null  and remark != ''"> and REMARK = #{remark}</if>
+        </where>
+    </select>
+    
+    <select id="selectChargingStationBySysId" parameterType="Long" resultMap="ChargingStationResult">
+        <include refid="selectChargingStationVo"/>
+        where SYS_ID = #{sysId}
+    </select>
+        
+    <insert id="insertChargingStation" parameterType="ChargingStation">
+        insert into charging_station
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sysId != null">SYS_ID,</if>
+            <if test="id != null and id != ''">ID,</if>
+            <if test="name != null and name != ''">NAME,</if>
+            <if test="type != null">TYPE,</if>
+            <if test="province != null">PROVINCE,</if>
+            <if test="city != null">CITY,</if>
+            <if test="country != null">COUNTRY,</if>
+            <if test="address != null">ADDRESS,</if>
+            <if test="site != null">SITE,</if>
+            <if test="capacity != null">CAPACITY,</if>
+            <if test="longitude != null">LONGITUDE,</if>
+            <if test="latitude != null">LATITUDE,</if>
+            <if test="discount != null">DISCOUNT,</if>
+            <if test="couponStatus != null">COUPON_STATUS,</if>
+            <if test="parkingFreeStatus != null">PARKING_FREE_STATUS,</if>
+            <if test="tag != null">TAG,</if>
+            <if test="operator != null and operator != ''">OPERATOR,</if>
+            <if test="stationStatus != null">STATION_STATUS,</if>
+            <if test="regionNum != null">REGION_NUM,</if>
+            <if test="businessCycle != null">BUSINESS_CYCLE,</if>
+            <if test="businessTimeStart != null">BUSINESS_TIME_START,</if>
+            <if test="businessTimeEnd != null">BUSINESS_TIME_END,</if>
+            <if test="contact != null">CONTACT,</if>
+            <if test="phoneNumber != null">PHONE_NUMBER,</if>
+            <if test="createBy != null">CREATE_BY,</if>
+            <if test="createTime != null">CREATE_TIME,</if>
+            <if test="updateBy != null">UPDATE_BY,</if>
+            <if test="updateTime != null">UPDATE_TIME,</if>
+            <if test="remark != null">REMARK,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sysId != null">#{sysId},</if>
+            <if test="id != null and id != ''">#{id},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="type != null">#{type},</if>
+            <if test="province != null">#{province},</if>
+            <if test="city != null">#{city},</if>
+            <if test="country != null">#{country},</if>
+            <if test="address != null">#{address},</if>
+            <if test="site != null">#{site},</if>
+            <if test="capacity != null">#{capacity},</if>
+            <if test="longitude != null">#{longitude},</if>
+            <if test="latitude != null">#{latitude},</if>
+            <if test="discount != null">#{discount},</if>
+            <if test="couponStatus != null">#{couponStatus},</if>
+            <if test="parkingFreeStatus != null">#{parkingFreeStatus},</if>
+            <if test="tag != null">#{tag},</if>
+            <if test="operator != null and operator != ''">#{operator},</if>
+            <if test="stationStatus != null">#{stationStatus},</if>
+            <if test="regionNum != null">#{regionNum},</if>
+            <if test="businessCycle != null">#{businessCycle},</if>
+            <if test="businessTimeStart != null">#{businessTimeStart},</if>
+            <if test="businessTimeEnd != null">#{businessTimeEnd},</if>
+            <if test="contact != null">#{contact},</if>
+            <if test="phoneNumber != null">#{phoneNumber},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateChargingStation" parameterType="ChargingStation">
+        update charging_station
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="id != null and id != ''">ID = #{id},</if>
+            <if test="name != null and name != ''">NAME = #{name},</if>
+            <if test="type != null">TYPE = #{type},</if>
+            <if test="province != null">PROVINCE = #{province},</if>
+            <if test="city != null">CITY = #{city},</if>
+            <if test="country != null">COUNTRY = #{country},</if>
+            <if test="address != null">ADDRESS = #{address},</if>
+            <if test="site != null">SITE = #{site},</if>
+            <if test="capacity != null">CAPACITY = #{capacity},</if>
+            <if test="longitude != null">LONGITUDE = #{longitude},</if>
+            <if test="latitude != null">LATITUDE = #{latitude},</if>
+            <if test="discount != null">DISCOUNT = #{discount},</if>
+            <if test="couponStatus != null">COUPON_STATUS = #{couponStatus},</if>
+            <if test="parkingFreeStatus != null">PARKING_FREE_STATUS = #{parkingFreeStatus},</if>
+            <if test="tag != null">TAG = #{tag},</if>
+            <if test="operator != null and operator != ''">OPERATOR = #{operator},</if>
+            <if test="stationStatus != null">STATION_STATUS = #{stationStatus},</if>
+            <if test="regionNum != null">REGION_NUM = #{regionNum},</if>
+            <if test="businessCycle != null">BUSINESS_CYCLE = #{businessCycle},</if>
+            <if test="businessTimeStart != null">BUSINESS_TIME_START = #{businessTimeStart},</if>
+            <if test="businessTimeEnd != null">BUSINESS_TIME_END = #{businessTimeEnd},</if>
+            <if test="contact != null">CONTACT = #{contact},</if>
+            <if test="phoneNumber != null">PHONE_NUMBER = #{phoneNumber},</if>
+            <if test="createBy != null">CREATE_BY = #{createBy},</if>
+            <if test="createTime != null">CREATE_TIME = #{createTime},</if>
+            <if test="updateBy != null">UPDATE_BY = #{updateBy},</if>
+            <if test="updateTime != null">UPDATE_TIME = #{updateTime},</if>
+            <if test="remark != null">REMARK = #{remark},</if>
+        </trim>
+        where SYS_ID = #{sysId}
+    </update>
+
+    <delete id="deleteChargingStationBySysId" parameterType="Long">
+        delete from charging_station where SYS_ID = #{sysId}
+    </delete>
+
+    <delete id="deleteChargingStationBySysIds" parameterType="String">
+        delete from charging_station where SYS_ID in 
+        <foreach item="sysId" collection="array" open="(" separator="," close=")">
+            #{sysId}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.ChargingPaymentMapper">
+    
+    <resultMap type="ChargingPayment" id="ChargingPaymentResult">
+        <result property="sysId"    column="sys_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="paymentId"    column="payment_id"    />
+        <result property="orderType"    column="order_type"    />
+        <result property="paymentMode"    column="payment_mode"    />
+        <result property="orderStatus"    column="order_status"    />
+        <result property="paymentMethod"    column="payment_method"    />
+        <result property="paymentMethodTag"    column="payment_method_tag"    />
+        <result property="paymentStatus"    column="payment_status"    />
+        <result property="thirdPaymentId"    column="third_payment_id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectChargingPaymentVo">
+        select sys_id, user_id, payment_id, order_type, payment_mode, order_status, payment_method, payment_method_tag, payment_status, third_payment_id, create_by, create_time, update_by, update_time, remark from charging_payment
+    </sql>
+
+    <select id="selectChargingPaymentList" parameterType="ChargingPayment" resultMap="ChargingPaymentResult">
+        <include refid="selectChargingPaymentVo"/>
+        <where>  
+            <if test="userId != null  and userId != ''"> and user_id = #{userId}</if>
+            <if test="paymentId != null  and paymentId != ''"> and payment_id = #{paymentId}</if>
+            <if test="orderType != null "> and order_type = #{orderType}</if>
+            <if test="paymentMode != null "> and payment_mode = #{paymentMode}</if>
+            <if test="orderStatus != null "> and order_status = #{orderStatus}</if>
+            <if test="paymentMethod != null  and paymentMethod != ''"> and payment_method = #{paymentMethod}</if>
+            <if test="paymentMethodTag != null "> and payment_method_tag = #{paymentMethodTag}</if>
+            <if test="paymentStatus != null "> and payment_status = #{paymentStatus}</if>
+            <if test="thirdPaymentId != null  and thirdPaymentId != ''"> and third_payment_id = #{thirdPaymentId}</if>
+            <if test="remark != null  and remark != ''"> and remark = #{remark}</if>
+        </where>
+    </select>
+    
+    <select id="selectChargingPaymentBySysId" parameterType="Long" resultMap="ChargingPaymentResult">
+        <include refid="selectChargingPaymentVo"/>
+        where sys_id = #{sysId}
+    </select>
+        
+    <insert id="insertChargingPayment" parameterType="ChargingPayment" useGeneratedKeys="true" keyProperty="sysId">
+        insert into charging_payment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null and userId != ''">user_id,</if>
+            <if test="paymentId != null and paymentId != ''">payment_id,</if>
+            <if test="orderType != null">order_type,</if>
+            <if test="paymentMode != null">payment_mode,</if>
+            <if test="orderStatus != null">order_status,</if>
+            <if test="paymentMethod != null">payment_method,</if>
+            <if test="paymentMethodTag != null">payment_method_tag,</if>
+            <if test="paymentStatus != null">payment_status,</if>
+            <if test="thirdPaymentId != null and thirdPaymentId != ''">third_payment_id,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null and userId != ''">#{userId},</if>
+            <if test="paymentId != null and paymentId != ''">#{paymentId},</if>
+            <if test="orderType != null">#{orderType},</if>
+            <if test="paymentMode != null">#{paymentMode},</if>
+            <if test="orderStatus != null">#{orderStatus},</if>
+            <if test="paymentMethod != null">#{paymentMethod},</if>
+            <if test="paymentMethodTag != null">#{paymentMethodTag},</if>
+            <if test="paymentStatus != null">#{paymentStatus},</if>
+            <if test="thirdPaymentId != null and thirdPaymentId != ''">#{thirdPaymentId},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateChargingPayment" parameterType="ChargingPayment">
+        update charging_payment
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null and userId != ''">user_id = #{userId},</if>
+            <if test="paymentId != null and paymentId != ''">payment_id = #{paymentId},</if>
+            <if test="orderType != null">order_type = #{orderType},</if>
+            <if test="paymentMode != null">payment_mode = #{paymentMode},</if>
+            <if test="orderStatus != null">order_status = #{orderStatus},</if>
+            <if test="paymentMethod != null">payment_method = #{paymentMethod},</if>
+            <if test="paymentMethodTag != null">payment_method_tag = #{paymentMethodTag},</if>
+            <if test="paymentStatus != null">payment_status = #{paymentStatus},</if>
+            <if test="thirdPaymentId != null and thirdPaymentId != ''">third_payment_id = #{thirdPaymentId},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where sys_id = #{sysId}
+    </update>
+
+    <delete id="deleteChargingPaymentBySysId" parameterType="Long">
+        delete from charging_payment where sys_id = #{sysId}
+    </delete>
+
+    <delete id="deleteChargingPaymentBySysIds" parameterType="String">
+        delete from charging_payment where sys_id in 
+        <foreach item="sysId" collection="array" open="(" separator="," close=")">
+            #{sysId}
+        </foreach>
+    </delete>
+</mapper>

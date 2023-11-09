@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.ChargingGunMapper">
+    
+    <resultMap type="ChargingGun" id="ChargingGunResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="parkingNumber"    column="parking_number"    />
+        <result property="province"    column="province"    />
+        <result property="city"    column="city"    />
+        <result property="country"    column="country"    />
+        <result property="stationName"    column="station_name"    />
+        <result property="partitionName"    column="partition_name"    />
+        <result property="pileId"    column="pile_id"    />
+        <result property="pileName"    column="pile_name"    />
+        <result property="pileNumber"    column="pile_number"    />
+        <result property="pileType"    column="pile_type"    />
+        <result property="operator"    column="operator"    />
+        <result property="gunStatus"    column="gun_status"    />
+        <result property="producer"    column="producer"    />
+        <result property="url"    column="url"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectChargingGunVo">
+        select id, name, parking_number, province, city, country, station_name, partition_name, pile_id, pile_name, pile_number, pile_type, operator, gun_status, producer, url, create_by, create_time, update_by, update_time, remark from charging_gun
+    </sql>
+
+    <select id="selectChargingGunList" parameterType="ChargingGun" resultMap="ChargingGunResult">
+        <include refid="selectChargingGunVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="province != null  and province != ''"> and province = #{province}</if>
+            <if test="city != null  and city != ''"> and city = #{city}</if>
+            <if test="country != null  and country != ''"> and country = #{country}</if>
+            <if test="stationName != null  and stationName != ''"> and station_name like concat('%', #{stationName}, '%')</if>
+            <if test="partitionName != null  and partitionName != ''"> and partition_name like concat('%', #{partitionName}, '%')</if>
+            <if test="pileName != null  and pileName != ''"> and pile_name like concat('%', #{pileName}, '%')</if>
+            <if test="pileType != null "> and pile_type = #{pileType}</if>
+            <if test="gunStatus != null "> and gun_status = #{gunStatus}</if>
+        </where>
+    </select>
+    
+    <select id="selectChargingGunById" parameterType="Long" resultMap="ChargingGunResult">
+        <include refid="selectChargingGunVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertChargingGun" parameterType="ChargingGun" useGeneratedKeys="true" keyProperty="id">
+        insert into charging_gun
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="parkingNumber != null">parking_number,</if>
+            <if test="province != null">province,</if>
+            <if test="city != null">city,</if>
+            <if test="country != null">country,</if>
+            <if test="stationName != null">station_name,</if>
+            <if test="partitionName != null">partition_name,</if>
+            <if test="pileId != null">pile_id,</if>
+            <if test="pileName != null">pile_name,</if>
+            <if test="pileNumber != null">pile_number,</if>
+            <if test="pileType != null">pile_type,</if>
+            <if test="operator != null">operator,</if>
+            <if test="gunStatus != null">gun_status,</if>
+            <if test="producer != null">producer,</if>
+            <if test="url != null">url,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="parkingNumber != null">#{parkingNumber},</if>
+            <if test="province != null">#{province},</if>
+            <if test="city != null">#{city},</if>
+            <if test="country != null">#{country},</if>
+            <if test="stationName != null">#{stationName},</if>
+            <if test="partitionName != null">#{partitionName},</if>
+            <if test="pileId != null">#{pileId},</if>
+            <if test="pileName != null">#{pileName},</if>
+            <if test="pileNumber != null">#{pileNumber},</if>
+            <if test="pileType != null">#{pileType},</if>
+            <if test="operator != null">#{operator},</if>
+            <if test="gunStatus != null">#{gunStatus},</if>
+            <if test="producer != null">#{producer},</if>
+            <if test="url != null">#{url},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateChargingGun" parameterType="ChargingGun">
+        update charging_gun
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="parkingNumber != null">parking_number = #{parkingNumber},</if>
+            <if test="province != null">province = #{province},</if>
+            <if test="city != null">city = #{city},</if>
+            <if test="country != null">country = #{country},</if>
+            <if test="stationName != null">station_name = #{stationName},</if>
+            <if test="partitionName != null">partition_name = #{partitionName},</if>
+            <if test="pileId != null">pile_id = #{pileId},</if>
+            <if test="pileName != null">pile_name = #{pileName},</if>
+            <if test="pileNumber != null">pile_number = #{pileNumber},</if>
+            <if test="pileType != null">pile_type = #{pileType},</if>
+            <if test="operator != null">operator = #{operator},</if>
+            <if test="gunStatus != null">gun_status = #{gunStatus},</if>
+            <if test="producer != null">producer = #{producer},</if>
+            <if test="url != null">url = #{url},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteChargingGunById" parameterType="Long">
+        delete from charging_gun where id = #{id}
+    </delete>
+
+    <delete id="deleteChargingGunByIds" parameterType="String">
+        delete from charging_gun where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
